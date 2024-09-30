@@ -10,5 +10,38 @@
 
   <body onload="main();">
     <canvas id="myWebGLCanvas" width="512" height="512"></canvas>
+
+    <script>
+      let firstFile = 'triangles.json';
+      let secondFile = 'makeItOwn.json';   
+      let currentFile = firstFile;      
+
+      // Function to load the JSON file programmatically
+      function loadFile(fileName) {
+          fetch(fileName)
+              .then(response => response.json())
+              .then(jsonData => {
+                  console.log("Loaded JSON data:", jsonData);
+                  main(jsonData); // Assuming main accepts JSON data
+              })
+              .catch(error => {
+                  console.error("Error loading file:", error);
+              });
+      }
+
+      // Function to handle spacebar press
+      function handler(event) {
+          if (event.code === 'Space') {
+              currentFile = (currentFile === firstFile) ? secondFile : firstFile;
+              loadFile(currentFile); 
+          }
+      }
+
+      window.onload = function() {
+          loadFile(firstFile);
+          
+          window.addEventListener('keydown', handler);
+      };
+  </script>
   </body>
 </html>
